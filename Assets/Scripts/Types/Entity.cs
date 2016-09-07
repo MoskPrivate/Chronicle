@@ -39,7 +39,7 @@ public class Entity : MonoBehaviour {
             health -= amount;
             asrc.Play();
         }
-        timeCounter += Time.deltaTime;
+        timeCounter += Time.time;
 
         
         if(health <= 0)
