@@ -68,12 +68,8 @@ public class PlayerController : MonoBehaviour {
     }
     void CheckAnimation()
     {
-        if(Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
-        {
-            moving.SetActive(false);
-            idle.SetActive(true);
-        }
-        else if (isInteracting)
+        
+        if(isInteracting)
         {
             moving.SetActive(false);
             idle.SetActive(true);
@@ -100,7 +96,7 @@ public class PlayerController : MonoBehaviour {
             }
             if (target.transform.parent.GetComponent<Entity>().interactionType == Entity.interactType.Use)
             {
-                target.transform.parent.GetComponent<Entity>().Use();
+                //target.transform.parent.GetComponent<Entity>().Use();
             }
         }
     }

@@ -5,11 +5,10 @@ public class Entity : MonoBehaviour {
 
     public float health;
     public GameObject inventory;
-    [HideInInspector]
     private float maxHealth;
 
     public enum entityType { Player, EnvObject, Building, Animal };
-    public enum interactType { None,Damage, Use };
+    public enum interactType { None,Damage, Use , Gather};
 
     public int resourceID;
     public entityType Type;
@@ -25,9 +24,16 @@ public class Entity : MonoBehaviour {
         inventory = GameObject.FindGameObjectWithTag("Inventory");
         asrc = GetComponent<AudioSource>();
     }
-    public void Use()
+    public void Use(float _damageAmount, float _damageTime)
     {
+        if(interactionType == interactType.Use)
+        {
+            //TODO: Do interaction type USE   
+        }
+        if(interactionType == interactType.Gather)
+        {
 
+        }
     }
 
     public void Damage(float amount, float strikeRate)
