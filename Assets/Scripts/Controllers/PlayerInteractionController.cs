@@ -18,10 +18,10 @@ public class PlayerInteractionController : MonoBehaviour {
     void CheckOverlapSphere()
     {
         Collider[] overlapColliders = Physics.OverlapSphere(gameObject.transform.position, interactionRadius,entityLayerMask);
-        GameObject objectToInteract = overlapColliders[0].transform.parent.gameObject;
         bool isAnEntity; 
         if(overlapColliders.Length > 0)
         {
+            GameObject objectToInteract = overlapColliders[0].transform.parent.gameObject;
             //Checking if the entity has an "Entity" component attached
             isAnEntity = CheckIfIsAnEntity(objectToInteract);
             Debug.Log(isAnEntity);
