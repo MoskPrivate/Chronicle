@@ -97,9 +97,9 @@ public class Inventory : MonoBehaviour
             craftingIcon.GetComponent<Image>().color = new Color32(255, 255, 255, 150);
             craftItem.GetComponent<Image>().color = new Color32(255, 255, 255, 200);
 
-            player.GetComponent<PlayerController>().idle.SetActive(true);
-            player.GetComponent<PlayerController>().moving.SetActive(false);
-            player.GetComponent<PlayerController>().enabled = false;
+           // player.GetComponent<PlayerController>().idle.SetActive(true);
+           // player.GetComponent<PlayerController>().moving.SetActive(false);
+           // player.GetComponent<PlayerController>().enabled = false;
             player.GetComponent<PlayerMovementController>().enabled = false;
             playerCameraObject.GetComponent<CameraController>().enabled = false;
         }
@@ -107,7 +107,7 @@ public class Inventory : MonoBehaviour
         {
             craftingIcon.GetComponent<Image>().color = new Color32(255, 255, 255, 60);
             craftItem.GetComponent<Image>().color = new Color32(255, 255, 255, 160);
-            player.GetComponent<PlayerController>().enabled = true;
+           // player.GetComponent<PlayerController>().enabled = true;
             player.GetComponent<PlayerMovementController>().enabled = true;
             playerCameraObject.GetComponent<CameraController>().enabled = true;
         }

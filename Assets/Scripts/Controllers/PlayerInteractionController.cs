@@ -8,8 +8,9 @@ public class PlayerInteractionController : MonoBehaviour {
     public float damageTime;
     	
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
+            
             CheckOverlapSphere();
         }
 	}
@@ -21,6 +22,7 @@ public class PlayerInteractionController : MonoBehaviour {
         {
             //Checking if the entity has an "Entity" component attached
             isAnEntity = CheckIfIsAnEntity(overlapColliders[0]);
+            Debug.Log(isAnEntity);
             if (isAnEntity)
             {
                 //Use the entitiy

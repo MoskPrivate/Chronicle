@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Entity : MonoBehaviour {
 
     public float health;
-    public GameObject inventory;
+    private Inventory inventory;
     private float maxHealth;
 
     public enum entityType { Player, EnvObject, Building, Animal };
     public enum interactType { None,Damage, Use , Gather};
 
-    public int resourceID;
     public entityType Type;
     public interactType interactionType;
+
+    public List<ResourceGiver> resourcesToGiveList = new List<ResourceGiver>();
 
     AudioSource asrc;
 
@@ -21,7 +23,7 @@ public class Entity : MonoBehaviour {
     void Awake()
     {
         maxHealth = health;
-        inventory = GameObject.FindGameObjectWithTag("Inventory");
+        inventory = GameObject.FindObjectOfType<Inventory>();
         asrc = GetComponent<AudioSource>();
     }
     public void Use(float _damageAmount, float _damageTime)
@@ -36,21 +38,22 @@ public class Entity : MonoBehaviour {
         }
     }
 
-    public void Damage(float amount, float strikeRate)
+    public void Damage(float _damageAmount, float _timeBetweenDamages)
     {
 
-        if(timeCounter > strikeRate)
-        {
-            timeCounter = 0;
-            health -= amount;
-            asrc.Play();
-        }
         timeCounter += Time.deltaTime;
-
+        if(timeCounter > _timeBetweenDamages)
+        {
+            health -= _damageAmount;
+            timeCounter = 0;
+        }
         
         if(health <= 0)
         {
-            asrc.Play();
+            if(interactionType == interactType.Gather)
+            {
+                GiveResources();
+            }
             Die();
         }
     }
@@ -59,16 +62,14 @@ public class Entity : MonoBehaviour {
         health -= amount;
         if (health <= 0)
         {
+            //GiveResources();
             Die();
         }
     }
     
     void Die()
     {
-        if(Type == entityType.EnvObject)
-        {
-            GiveResources();
-        }
+        
         Destroy(gameObject);
     }
     void GiveResources()
@@ -77,10 +78,19 @@ public class Entity : MonoBehaviour {
         {
             if(inventory.GetComponent<Inventory>() != null)
             {
-                inventory.GetComponent<Inventory>().AddItem(resourceID, 5);
+                for (int i = 0; i < resourcesToGiveList.Count; i++)
+                {
+                    inventory.GetComponent<Inventory>().AddItem(resourcesToGiveList[i].itemId, resourcesToGiveList[i].amount);
+                }
+                
             }
         }
     }
 
+}
+[System.Serializable]
+public class ResourceGiver {
+    public int itemId;
+    public int amount;
 }
 
