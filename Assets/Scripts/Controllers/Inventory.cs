@@ -233,7 +233,26 @@ public class Inventory : MonoBehaviour
     //Removing resources from the inventory(crafting)
     public void RemoveItem(int itemId, int amount)
     {
-
+        for (int i = 0; i < inventoryList.Count; i++)
+        {
+            if(inventoryList[i].itemId == itemId)
+            {
+                if(amount > inventoryList[i].amount)
+                {
+                    amount -= inventoryList[i].amount;
+                    inventoryList[i].amount = 0;
+                    if(amount > 0)
+                    {
+                        RemoveItem(itemId, amount);
+                    }
+                }
+                else
+                {
+                    inventoryList[i].amount -= amount;
+                    return;
+                }
+            }
+        }
     }
 
     //For clearing the inventory
