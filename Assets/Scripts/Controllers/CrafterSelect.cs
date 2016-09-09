@@ -9,6 +9,7 @@ public class CrafterSelect : MonoBehaviour {
     public List<Crafter> crafterList;
     public Crafter selectedCrafter;
 
+
     [Header("Other Items")]
     public ItemManager itemManager;
     public Inventory inventory;
@@ -32,6 +33,7 @@ public class CrafterSelect : MonoBehaviour {
     }
     void UpdateGraphicsSideBar(Crafter _crafter)
     {
+        CraftingManager.currentCrafter = _crafter;
         crafterResultId = selectedCrafter.resultId;
         sideBarTitle.text = itemManager.itemList[crafterResultId].name;
         sideBarDescription.text = itemManager.itemList[crafterResultId].description;

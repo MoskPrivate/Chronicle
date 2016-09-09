@@ -13,6 +13,8 @@ public class Inventory : MonoBehaviour
     public GameObject defaultPanel;
 	public GameObject clothingPanel;
 
+    public CraftingManager craftingManager;
+
     //Other items
     public GameObject craftingIcon;
     public GameObject craftItem;
@@ -27,6 +29,13 @@ public class Inventory : MonoBehaviour
 	//public int totalSlotAmount;
 
     List<invItem> inventoryList = new List<invItem>();
+    public List<invItem> InventoryList
+    {
+        get
+        {
+            return inventoryList;
+        }
+    }
     public GameObject hotBar;
 	//public GameObject inventoryBar;
     ItemManager itemManager;
@@ -90,9 +99,10 @@ public class Inventory : MonoBehaviour
     public void PanelActivate()
     {
         Crafter.isPressed = false;
-        craftPanel.SetActive(!craftPanel.active);
-        defaultPanel.SetActive(!craftPanel.active);
-        if(craftPanel.active)
+        craftingManager.UpdateCraftingAvailability(0);
+        craftPanel.SetActive(!craftPanel.activeSelf);
+        defaultPanel.SetActive(!craftPanel.activeSelf);
+        if(craftPanel.activeSelf)   
         {
             craftingIcon.GetComponent<Image>().color = new Color32(255, 255, 255, 150);
             craftItem.GetComponent<Image>().color = new Color32(255, 255, 255, 200);
@@ -296,6 +306,10 @@ public class Inventory : MonoBehaviour
                 itemImage.color = new Color32(255, 255, 255, 255);
                 itemAmountText.color = new Color32(255, 255, 255, 255);
                 itemAmountText.text = item.amount.ToString();
+                if(item.amount == 1)
+                {
+                    itemAmountText.text = "";
+                }
                 if(item.amount == 0)
                 {
                     itemAmountText.color = new Color32(255, 255, 255, 0);
