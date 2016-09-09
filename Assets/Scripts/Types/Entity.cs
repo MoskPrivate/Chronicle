@@ -44,6 +44,7 @@ public class Entity : MonoBehaviour {
         timeCounter += Time.deltaTime;
         if(timeCounter > _timeBetweenDamages)
         {
+            AudioSource.PlayClipAtPoint(asrc.clip, transform.position);
             health -= _damageAmount;
             timeCounter = 0;
         }
