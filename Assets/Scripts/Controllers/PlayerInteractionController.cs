@@ -18,24 +18,54 @@ public class PlayerInteractionController : MonoBehaviour {
     void CheckOverlapSphere()
     {
         Collider[] overlapColliders = Physics.OverlapSphere(gameObject.transform.position, interactionRadius,entityLayerMask);
-        bool isAnEntity; 
         if(overlapColliders.Length > 0)
         {
-            GameObject objectToInteract = overlapColliders[0].transform.parent.gameObject;
-            //Checking if the entity has an "Entity" component attached
-            isAnEntity = CheckIfIsAnEntity(objectToInteract);
-            Debug.Log(isAnEntity);
-            if (isAnEntity)
+            GameObject objectToInteract = GetNearestEntity(overlapColliders);
+            if (objectToInteract == null)
             {
-                //Use the entitiy
-                    //TODO: If there are multiple colliders in the interaction sphere, get the nearest one
-                GetEntity(objectToInteract).Use(damageAmount, damageTime);
+                Debug.Log("no near objects");
+                return;
             }
+            else
+            {
+                //Checking if the entity has an "Entity" component attached
+                //Use the entitiy
+                //TODO: If there are multiple colliders in the interaction sphere, get the nearest one
+                GetEntity(objectToInteract.transform.parent.gameObject).Use(damageAmount, damageTime);
+            }
+            
         }
+    }
+    GameObject GetNearestEntity(Collider[] cols)
+    {
+        float smallestSqrDistance = 10000;
+        GameObject closestObject = null;
+        for (int i = 0; i < cols.Length; i++)
+        {
+            
+            if (CheckIfIsAnEntity(cols[i].transform.parent.gameObject))
+            {
+               
+                Vector3 offSet = cols[i].gameObject.transform.position - transform.position;
+                float sqrDistance = offSet.sqrMagnitude;
+                if (sqrDistance < smallestSqrDistance)
+                {
+                    smallestSqrDistance = sqrDistance;
+                    closestObject = cols[i].gameObject;
+                }
+                
+            }
+           
+        }
+        Debug.Log(closestObject);
+        return closestObject;
+        
+        
+
+        
     }
     bool CheckIfIsAnEntity(GameObject col)
     {
-        Debug.Log(col.name);
         if(col.gameObject.GetComponent<Entity>() != null)
         {
             

@@ -244,13 +244,11 @@ public class Inventory : MonoBehaviour
             {
                 if(inventoryList[i].amount == itemManager.itemList[itemId].stackSize)
                 {
-                   	Debug.Log("Foundspot, but full:" + i);
                     continue;
                 }
                 else
                 {
                     //Debug.Log("AmountInSpot" + inventoryList[i].amount);
-                    Debug.Log("Found same spot:" + i);
                     slotId = i;
                     return slotId;
                 }
@@ -267,15 +265,13 @@ public class Inventory : MonoBehaviour
         {
 			if(i == 0)
 			{
-				Debug.Log(inventoryList[i].itemId);
+
 			}
             if(inventoryList[i].itemId == -1)
             {
-                Debug.Log("FindEmptySlot:" + i);
                 return i;
             }
         }
-        Debug.Log("FindEmptySlot:-1");
         return -1;
     }
 

@@ -28,14 +28,13 @@ public class Entity : MonoBehaviour {
     }
     public void Use(float _damageAmount, float _damageTime)
     {
-        Debug.Log("USE" + gameObject.name);
         if(interactionType == interactType.Use)
         {
             //TODO: Do interaction type USE   
         }
         if(interactionType == interactType.Gather)
         {
-
+            Damage(_damageAmount, _damageTime);
         }
     }
 
