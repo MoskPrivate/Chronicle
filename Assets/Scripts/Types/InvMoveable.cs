@@ -21,7 +21,6 @@ public class InvMoveable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-		Debug.Log(interactable);
         if (interactable)
         {
             returnParent = this.transform.parent;
@@ -30,7 +29,6 @@ public class InvMoveable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             this.transform.SetParent(returnParent.parent.parent);
 
             GetComponent<CanvasGroup>().blocksRaycasts = false;
-			Debug.Log("BeginDrag");
         }
         
     }
@@ -39,7 +37,6 @@ public class InvMoveable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		
         if (interactable)
         {
-			Debug.Log("OnDrag");
             this.transform.position = eventData.position;
         }
         
