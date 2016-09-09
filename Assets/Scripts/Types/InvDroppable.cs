@@ -23,6 +23,7 @@ public class InvDroppable : MonoBehaviour ,IDropHandler, IPointerEnterHandler, I
     {
         InvMoveable d = eventData.pointerDrag.GetComponent<InvMoveable>();
 		InvMoveable my;
+		int dSlot = d.slot;
 		int temp;
 
 		if(d != null && d.interactable)

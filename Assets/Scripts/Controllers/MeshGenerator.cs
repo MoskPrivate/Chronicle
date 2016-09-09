@@ -9,7 +9,7 @@ public class MeshGenerator : MonoBehaviour
     GameObject wallCollider;
     MeshCollider meshCollider;
     GrassGenerator grassGen;
-    //MapGenerator gen;
+    MapGenerator gen;
     List<Vector3> placeAbleSquares;
     List<Vector3> vertices;
     List<int> triangles;
@@ -20,7 +20,7 @@ public class MeshGenerator : MonoBehaviour
 
     void Awake()
     {
-
+        gen = GetComponent<MapGenerator>();
     }
     public void GenerateMesh(int[,] map, float squareSize)
     {

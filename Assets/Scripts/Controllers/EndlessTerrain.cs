@@ -109,6 +109,7 @@ public class EndlessTerrain : MonoBehaviour {
             meshObject.AddComponent<MeshFilter>();
             meshObject.AddComponent<MeshCollider>();
             meshObject.name = "Chunk";
+            MeshGenerator meshGen = meshObject.AddComponent<MeshGenerator>();
             Chunk createdChunk = meshObject.AddComponent<Chunk>();
 
             wallObject.name = "Extrusion";

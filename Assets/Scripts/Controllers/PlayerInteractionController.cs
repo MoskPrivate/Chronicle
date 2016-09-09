@@ -57,6 +57,7 @@ public class PlayerInteractionController : MonoBehaviour {
             }
            
         }
+        Debug.Log(closestObject);
         return closestObject;
         
         
