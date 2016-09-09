@@ -23,8 +23,8 @@ public class Inventory : MonoBehaviour
 
 
     public int hotBarSlotAmount;
-	//public int inventorySlotAmount;
-	//public int totalSlotAmount;
+    //public int inventorySlotAmount;
+    //public int totalSlotAmount;
 
     List<invItem> inventoryList = new List<invItem>();
     public GameObject hotBar;
@@ -90,9 +90,9 @@ public class Inventory : MonoBehaviour
     public void PanelActivate()
     {
         Crafter.isPressed = false;
-        craftPanel.SetActive(!craftPanel.active);
-        defaultPanel.SetActive(!craftPanel.active);
-        if(craftPanel.active)
+        craftPanel.SetActive(!craftPanel.activeSelf);
+        defaultPanel.SetActive(!craftPanel.activeSelf);
+        if(craftPanel.activeSelf)
         {
             craftingIcon.GetComponent<Image>().color = new Color32(255, 255, 255, 150);
             craftItem.GetComponent<Image>().color = new Color32(255, 255, 255, 200);
@@ -265,7 +265,6 @@ public class Inventory : MonoBehaviour
         {
 			if(i == 0)
 			{
-
 			}
             if(inventoryList[i].itemId == -1)
             {

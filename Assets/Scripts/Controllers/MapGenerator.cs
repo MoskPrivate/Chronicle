@@ -17,8 +17,7 @@ public class MapGenerator : MonoBehaviour {
     public float lacunarity;
     public int seed;
     public Vector2 offSet;
-    List<MapSquare> mapSquares = new List<MapSquare>();
-    MapSquare[,] mapSquareArray;
+    //List<MapSquare> mapSquares = new List<MapSquare>();
 
     public float range;
     #endregion
@@ -53,7 +52,6 @@ public class MapGenerator : MonoBehaviour {
     #endregion
     void Awake()
     {
-        mapSquareArray = new MapSquare[width, height];
         GenerateMap();
         /*spawnAblePositions = new List<Vector3>();
         mapSquares = new List<MapSquare>();*/

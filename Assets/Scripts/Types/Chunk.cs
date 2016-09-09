@@ -15,7 +15,6 @@ public class Chunk : MonoBehaviour {
     public Vector2 offSet;
     Vector2 lastOffset;
     float range = 0.49f;
-    MeshGenerator meshGen;
     List<MapSquare> mapSquares;
     Queue<MapSquare> shuffledMapSquares;
 
@@ -23,7 +22,6 @@ public class Chunk : MonoBehaviour {
 
     public void CreateInstance(Vector2 _pos)
     {
-        meshGen = FindObjectOfType<MeshGenerator>();
         pos = _pos;
         offSet = new Vector2(pos.x * 31, pos.y * 31);
         seed = EndlessTerrain.endlessTerrain.seed;
@@ -68,7 +66,7 @@ public class Chunk : MonoBehaviour {
                     else
                     {
                         map[x, y] = 1;
-                        MapSquare square = new MapSquare(squarePos, x, y, false);
+                        //MapSquare square = new MapSquare(squarePos, x, y, false);
                     }
                 }
                 else
