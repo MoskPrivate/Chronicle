@@ -14,6 +14,7 @@ public class Inventory : MonoBehaviour
 	public GameObject clothingPanel;
 
     public CraftingManager craftingManager;
+    public CraftingTabsManager craftingTabsManager;
 
     //Other items
     public GameObject craftingIcon;
@@ -98,7 +99,7 @@ public class Inventory : MonoBehaviour
 
     public void PanelActivate()
     {
-        craftingManager.UpdateCraftingAvailability(0);
+        craftingManager.UpdateCraftingAvailability(craftingTabsManager.GetSelectedTabNumber());
         craftPanel.SetActive(!craftPanel.activeSelf);
         defaultPanel.SetActive(!craftPanel.activeSelf);
         if(craftPanel.activeSelf)   

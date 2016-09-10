@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CraftingManager : MonoBehaviour {
 
     public Inventory inventory;
-    public List<Transform> pages;
+    List<GameObject> pages;
     public GameObject craftButton;
     public Color craftButtonColorGreen;
     public Color craftButtonColorRed;
@@ -14,16 +14,21 @@ public class CraftingManager : MonoBehaviour {
     public static Crafter currentCrafter;
     bool canCraft;
 
-    
-	public void UpdateCraftingAvailability(int pageNumber)
+    void Awake()
+    {
+        CraftingTabsReferances referances = GetComponent<CraftingTabsReferances>();
+        pages = referances.craftingTabsList;
+    }
+
+    public void UpdateCraftingAvailability(int pageNumber)
     {
         canCraft = false;
-        int crafterAmount = pages[pageNumber].childCount;
+        int crafterAmount = pages[pageNumber].transform.childCount;
         for (int i = 0; i < crafterAmount; i++)
         {
-            if(pages[pageNumber].GetChild(i).GetComponent<Crafter>() != null)
+            if(pages[pageNumber].transform.GetChild(i).GetComponent<Crafter>() != null)
             {
-                if (CheckForResources(pages[pageNumber].GetChild(i).GetComponent<Crafter>()) == true)
+                if (CheckForResources(pages[pageNumber].transform.GetChild(i).GetComponent<Crafter>()) == true)
                 {
                     craftButton.GetComponent<Image>().color = craftButtonColorGreen;
                     canCraft = true;
