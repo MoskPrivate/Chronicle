@@ -100,10 +100,7 @@ public class Inventory : MonoBehaviour
 
     public void PanelActivate()
     {
-        if(crafterSelect.selectedCrafter != null)
-        {
-            crafterSelect.UpdateGraphicsSideBar(crafterSelect.selectedCrafter);
-        }
+        
         
         craftingManager.UpdateCraftingAvailability(craftingTabsManager.GetSelectedTabNumber());
         craftPanel.SetActive(!craftPanel.activeSelf);
@@ -126,6 +123,11 @@ public class Inventory : MonoBehaviour
            // player.GetComponent<PlayerController>().enabled = true;
             player.GetComponent<PlayerMovementController>().enabled = true;
             playerCameraObject.GetComponent<CameraController>().enabled = true;
+
+        }
+        if (crafterSelect.selectedCrafter != null)
+        {
+            crafterSelect.UpdateGraphicsSideBar(CraftingManager.currentCrafter);
         }
     }
 
