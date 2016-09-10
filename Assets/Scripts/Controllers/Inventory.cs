@@ -320,14 +320,14 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < hotBarSlotAmount; i++)
         {
             invItem item = inventoryList[i];
-            Image itemImage = item.itemUI.GetComponent<Image>();
+            Image itemImage = item.itemUI.transform.FindChild("Image").GetComponent<Image>();
             Text itemAmountText = item.itemUI.transform.GetChild(0).gameObject.GetComponent<Text>();
             if(item.amount == 0)
             {
                 itemImage.color = new Color32(255, 255, 255, 0);
                 itemAmountText.color = new Color32(255, 255, 255, 0);
                 itemImage.sprite = null;
-                itemImage.GetComponent<InvMoveable>().interactable = false;
+                itemImage.transform.parent.GetComponent<InvMoveable>().interactable = false;
 				//Debug.Log("interactable = false" + itemImage.GetComponent<InvMoveable>().transform.parent.name);	
             }
             else
@@ -342,13 +342,13 @@ public class Inventory : MonoBehaviour
                 if(item.amount == 0)
                 {
                     itemAmountText.color = new Color32(255, 255, 255, 0);
-                    itemImage.GetComponent<InvMoveable>().interactable = false;
+                    itemImage.transform.parent.GetComponent<InvMoveable>().interactable = false;
 					//Debug.Log("interactable = false" + itemImage.GetComponent<InvMoveable>().transform.parent.name);
                 }
                 if (itemManager.itemList[item.itemId] != null)
                 {
                     itemImage.sprite = itemManager.itemList[item.itemId].itemSprite;
-                    itemImage.GetComponent<InvMoveable>().interactable = true;
+                    itemImage.transform.parent.GetComponent<InvMoveable>().interactable = true;
 					//Debug.Log("interactable = true" + itemImage.GetComponent<InvMoveable>().transform.parent.name);
                 }
                 else
