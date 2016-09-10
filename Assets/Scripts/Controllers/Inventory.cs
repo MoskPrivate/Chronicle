@@ -13,6 +13,10 @@ public class Inventory : MonoBehaviour
     public GameObject defaultPanel;
 	public GameObject clothingPanel;
 
+    public CraftingManager craftingManager;
+    public CraftingTabsManager craftingTabsManager;
+    public CrafterSelect crafterSelect;
+
     //Other items
     public GameObject craftingIcon;
     public GameObject craftItem;
@@ -27,6 +31,13 @@ public class Inventory : MonoBehaviour
 	//public int totalSlotAmount;
 
     List<invItem> inventoryList = new List<invItem>();
+    public List<invItem> InventoryList
+    {
+        get
+        {
+            return inventoryList;
+        }
+    }
     public GameObject hotBar;
 	//public GameObject inventoryBar;
     ItemManager itemManager;
@@ -89,10 +100,12 @@ public class Inventory : MonoBehaviour
 
     public void PanelActivate()
     {
-        Crafter.isPressed = false;
-        craftPanel.SetActive(!craftPanel.active);
-        defaultPanel.SetActive(!craftPanel.active);
-        if(craftPanel.active)
+        
+        
+        craftingManager.UpdateCraftingAvailability(craftingTabsManager.GetSelectedTabNumber());
+        craftPanel.SetActive(!craftPanel.activeSelf);
+        defaultPanel.SetActive(!craftPanel.activeSelf);
+        if(craftPanel.activeSelf)   
         {
             craftingIcon.GetComponent<Image>().color = new Color32(255, 255, 255, 150);
             craftItem.GetComponent<Image>().color = new Color32(255, 255, 255, 200);
@@ -110,6 +123,11 @@ public class Inventory : MonoBehaviour
            // player.GetComponent<PlayerController>().enabled = true;
             player.GetComponent<PlayerMovementController>().enabled = true;
             playerCameraObject.GetComponent<CameraController>().enabled = true;
+
+        }
+        if (crafterSelect.selectedCrafter != null)
+        {
+            crafterSelect.UpdateGraphicsSideBar(CraftingManager.currentCrafter);
         }
     }
 
@@ -223,7 +241,28 @@ public class Inventory : MonoBehaviour
     //Removing resources from the inventory(crafting)
     public void RemoveItem(int itemId, int amount)
     {
-
+        int amountToAdd = amount;
+        for (int i = 0; i < inventoryList.Count; i++)
+        {
+            if(inventoryList[i].itemId == itemId)
+            {
+                if(amountToAdd > inventoryList[i].amount)
+                {
+                    amountToAdd -= inventoryList[i].amount;
+                    inventoryList[i].amount = 0;
+                    if(amount > 0)
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    inventoryList[i].amount -= amount;
+                    return;
+                }
+            }
+        }
+        UpdateGraphics();
     }
 
     //For clearing the inventory
@@ -281,14 +320,14 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < hotBarSlotAmount; i++)
         {
             invItem item = inventoryList[i];
-            Image itemImage = item.itemUI.GetComponent<Image>();
-            Text itemAmountText = item.itemUI.transform.GetChild(0).gameObject.GetComponent<Text>();
+            Image itemImage = item.itemUI.transform.FindChild("Image").GetComponent<Image>();
+            Text itemAmountText = item.itemUI.transform.GetChild(1).gameObject.GetComponent<Text>();
             if(item.amount == 0)
             {
                 itemImage.color = new Color32(255, 255, 255, 0);
                 itemAmountText.color = new Color32(255, 255, 255, 0);
                 itemImage.sprite = null;
-                itemImage.GetComponent<InvMoveable>().interactable = false;
+                itemImage.transform.parent.GetComponent<InvMoveable>().interactable = false;
 				//Debug.Log("interactable = false" + itemImage.GetComponent<InvMoveable>().transform.parent.name);	
             }
             else
@@ -296,16 +335,20 @@ public class Inventory : MonoBehaviour
                 itemImage.color = new Color32(255, 255, 255, 255);
                 itemAmountText.color = new Color32(255, 255, 255, 255);
                 itemAmountText.text = item.amount.ToString();
+                if(item.amount == 1)
+                {
+                    itemAmountText.text = "";
+                }
                 if(item.amount == 0)
                 {
                     itemAmountText.color = new Color32(255, 255, 255, 0);
-                    itemImage.GetComponent<InvMoveable>().interactable = false;
+                    itemImage.transform.parent.GetComponent<InvMoveable>().interactable = false;
 					//Debug.Log("interactable = false" + itemImage.GetComponent<InvMoveable>().transform.parent.name);
                 }
                 if (itemManager.itemList[item.itemId] != null)
                 {
                     itemImage.sprite = itemManager.itemList[item.itemId].itemSprite;
-                    itemImage.GetComponent<InvMoveable>().interactable = true;
+                    itemImage.transform.parent.GetComponent<InvMoveable>().interactable = true;
 					//Debug.Log("interactable = true" + itemImage.GetComponent<InvMoveable>().transform.parent.name);
                 }
                 else

@@ -8,7 +8,10 @@ using System;
 public class Crafter : MonoBehaviour
 {
     public int resultId;
+    public int resultAmount = 1;
     public List<CraftSetting> itemsNeeded = new List<CraftSetting>();
+
+    public bool canCraft;
 
 
     GameObject sidebarPanel;

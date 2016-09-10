@@ -28,13 +28,13 @@ public class InvDroppable : MonoBehaviour ,IDropHandler, IPointerEnterHandler, I
 
 		if(d != null && d.interactable)
         {
-            if (transform.childCount > 0)
+            if (transform.childCount > 1)
             {
-				my = this.transform.GetChild(0).GetComponent<InvMoveable>();
-				//Debug.Log("Swap : " + my.slot + " with " + d.slot);
-				//this.transform.GetChild(0).SetParent(d.returnParent,false);
+				my = this.transform.FindChild("ItemImage").GetComponent<InvMoveable>();
+                //Debug.Log("Swap : " + my.slot + " with " + d.slot);
+                //this.transform.GetChild(0).SetParent(d.returnParent,false);
 
-				my.transform.SetParent(d.originalParent.transform,false);
+                my.transform.SetParent(d.originalParent.transform,false);
 				d.returnParent = this.transform;
 				d.transform.SetParent(d.returnParent,false);
 
