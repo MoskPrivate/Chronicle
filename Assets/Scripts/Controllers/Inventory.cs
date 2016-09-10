@@ -98,7 +98,6 @@ public class Inventory : MonoBehaviour
 
     public void PanelActivate()
     {
-        Crafter.isPressed = false;
         craftingManager.UpdateCraftingAvailability(0);
         craftPanel.SetActive(!craftPanel.activeSelf);
         defaultPanel.SetActive(!craftPanel.activeSelf);
@@ -233,17 +232,18 @@ public class Inventory : MonoBehaviour
     //Removing resources from the inventory(crafting)
     public void RemoveItem(int itemId, int amount)
     {
+        int amountToAdd = amount;
         for (int i = 0; i < inventoryList.Count; i++)
         {
             if(inventoryList[i].itemId == itemId)
             {
-                if(amount > inventoryList[i].amount)
+                if(amountToAdd > inventoryList[i].amount)
                 {
-                    amount -= inventoryList[i].amount;
+                    amountToAdd -= inventoryList[i].amount;
                     inventoryList[i].amount = 0;
                     if(amount > 0)
                     {
-                        RemoveItem(itemId, amount);
+                        continue;
                     }
                 }
                 else
@@ -253,6 +253,7 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
+        UpdateGraphics();
     }
 
     //For clearing the inventory

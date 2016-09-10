@@ -17,6 +17,7 @@ public class CraftingManager : MonoBehaviour {
     
 	public void UpdateCraftingAvailability(int pageNumber)
     {
+        canCraft = false;
         int crafterAmount = pages[pageNumber].childCount;
         for (int i = 0; i < crafterAmount; i++)
         {
@@ -35,6 +36,7 @@ public class CraftingManager : MonoBehaviour {
             }
            
         }
+        
     }
     bool CheckForResources(Crafter crafter)
     {
@@ -51,6 +53,7 @@ public class CraftingManager : MonoBehaviour {
                     amountInInventory += inventory.InventoryList[j].amount;
                 }
             }
+            //Debug.Log(amountInInventory + " " + itemId);
             if(amountInInventory >= amount)
             {
                 continue;
@@ -60,10 +63,12 @@ public class CraftingManager : MonoBehaviour {
                 return false;
             }
         }
+        
         return true;
     }
     public void CraftItem()
     {
+        
         Crafter crafter = currentCrafter;
         if(canCraft && crafter != null)
         {
@@ -75,5 +80,6 @@ public class CraftingManager : MonoBehaviour {
             }
             inventory.AddItem(crafter.resultId, crafter.resultAmount);
         }
+        UpdateCraftingAvailability(0);
     }
 }
