@@ -321,7 +321,7 @@ public class Inventory : MonoBehaviour
         {
             invItem item = inventoryList[i];
             Image itemImage = item.itemUI.transform.FindChild("Image").GetComponent<Image>();
-            Text itemAmountText = item.itemUI.transform.GetChild(0).gameObject.GetComponent<Text>();
+            Text itemAmountText = item.itemUI.transform.GetChild(1).gameObject.GetComponent<Text>();
             if(item.amount == 0)
             {
                 itemImage.color = new Color32(255, 255, 255, 0);
