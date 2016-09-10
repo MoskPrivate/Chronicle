@@ -38,7 +38,6 @@ public class Chunk : MonoBehaviour {
         {
             GenerateMap();
             lastOffset = offSet;
-            print("hey");
         }
     }
 	void GenerateMap()

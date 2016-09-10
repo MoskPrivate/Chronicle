@@ -10,6 +10,7 @@ public class CraftingManager : MonoBehaviour {
     public GameObject craftButton;
     public Color craftButtonColorGreen;
     public Color craftButtonColorRed;
+    public CrafterSelect crafterSelect;
 
     public static Crafter currentCrafter;
     bool canCraft;
@@ -30,13 +31,11 @@ public class CraftingManager : MonoBehaviour {
             {
                 if (CheckForResources(pages[pageNumber].transform.GetChild(i).GetComponent<Crafter>()) == true)
                 {
-                    craftButton.GetComponent<Image>().color = craftButtonColorGreen;
-                    canCraft = true;
+                    pages[pageNumber].transform.GetChild(i).GetComponent<Crafter>().canCraft = true;
                 }
                 else
                 {
-                    craftButton.GetComponent<Image>().color = craftButtonColorRed;
-                    canCraft = false;
+                    pages[pageNumber].transform.GetChild(i).GetComponent<Crafter>().canCraft = false;
                 }
             }
            
@@ -75,7 +74,7 @@ public class CraftingManager : MonoBehaviour {
     {
         
         Crafter crafter = currentCrafter;
-        if(canCraft && crafter != null)
+        if(currentCrafter.canCraft && crafter != null)
         {
             
             for (int i = 0; i < crafter.itemsNeeded.Count; i++)
@@ -86,5 +85,6 @@ public class CraftingManager : MonoBehaviour {
             inventory.AddItem(crafter.resultId, crafter.resultAmount);
         }
         UpdateCraftingAvailability(0);
+        crafterSelect.UpdateGraphicsSideBar(currentCrafter);
     }
 }

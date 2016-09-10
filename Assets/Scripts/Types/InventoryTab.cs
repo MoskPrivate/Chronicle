@@ -15,9 +15,11 @@ public class InventoryTab : MonoBehaviour , IPointerClickHandler {
     CraftingTabsManager tabsManager;
     CraftingManager craftingManager;
     CraftingTabsReferances craftingTabsReferances;
+    CrafterSelect crafterSelect;
 
     void Awake()
     {
+        crafterSelect = FindObjectOfType<CrafterSelect>();
         tabNameText = GameObject.FindGameObjectWithTag("TabName").GetComponent<Text>();
         tabsManager = FindObjectOfType<CraftingTabsManager>();
         craftingManager = tabsManager.GetComponent<CraftingManager>();
@@ -29,6 +31,11 @@ public class InventoryTab : MonoBehaviour , IPointerClickHandler {
         if(tabName == "All")
         {
             CreateTheAllPage();
+        }
+        craftingManager.UpdateCraftingAvailability(0);
+        if(crafterSelect.selectedCrafter != null)
+        {
+            crafterSelect.UpdateGraphicsSideBar(crafterSelect.selectedCrafter);
         }
     }
 
@@ -50,6 +57,7 @@ public class InventoryTab : MonoBehaviour , IPointerClickHandler {
 
     public void OnPointerClick(PointerEventData eventData)
     {
+
         craftingManager.UpdateCraftingAvailability(pageNumber);
         tabsManager.SelectTab(pageNumber, this.gameObject);
         Crafter.isPressed = false;

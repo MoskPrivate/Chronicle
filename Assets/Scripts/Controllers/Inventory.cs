@@ -15,6 +15,7 @@ public class Inventory : MonoBehaviour
 
     public CraftingManager craftingManager;
     public CraftingTabsManager craftingTabsManager;
+    public CrafterSelect crafterSelect;
 
     //Other items
     public GameObject craftingIcon;
@@ -99,6 +100,11 @@ public class Inventory : MonoBehaviour
 
     public void PanelActivate()
     {
+        if(crafterSelect.selectedCrafter != null)
+        {
+            crafterSelect.UpdateGraphicsSideBar(crafterSelect.selectedCrafter);
+        }
+        
         craftingManager.UpdateCraftingAvailability(craftingTabsManager.GetSelectedTabNumber());
         craftPanel.SetActive(!craftPanel.activeSelf);
         defaultPanel.SetActive(!craftPanel.activeSelf);

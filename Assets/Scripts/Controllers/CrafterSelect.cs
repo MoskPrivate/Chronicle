@@ -18,6 +18,9 @@ public class CrafterSelect : MonoBehaviour {
     public Text sideBarDescription;
     public GameObject craftNeedElement;
     public GameObject craftResourcesPanel;
+    public GameObject craftButton;
+    public Color craftButtonColorGreen;
+    public Color craftButtonColorRed;
 
     int crafterResultId;
 
@@ -31,8 +34,16 @@ public class CrafterSelect : MonoBehaviour {
         }
         UpdateGraphicsSideBar(_crafter);
     }
-    void UpdateGraphicsSideBar(Crafter _crafter)
+    public void UpdateGraphicsSideBar(Crafter _crafter)
     {
+        if (_crafter.canCraft)
+        {
+            craftButton.GetComponent<Image>().color = craftButtonColorGreen;
+        }
+        else
+        {
+            craftButton.GetComponent<Image>().color = craftButtonColorRed;
+        }
         CraftingManager.currentCrafter = _crafter;
         crafterResultId = selectedCrafter.resultId;
         sideBarTitle.text = itemManager.itemList[crafterResultId].name;
@@ -57,6 +68,8 @@ public class CrafterSelect : MonoBehaviour {
             needItem.need.text = _crafter.itemsNeeded[i].amount.ToString();
 
         }
+        
+        
 
     }
 }

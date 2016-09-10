@@ -11,6 +11,8 @@ public class Crafter : MonoBehaviour
     public int resultAmount = 1;
     public List<CraftSetting> itemsNeeded = new List<CraftSetting>();
 
+    public bool canCraft;
+
 
     GameObject sidebarPanel;
     public static bool isPressed = false;
