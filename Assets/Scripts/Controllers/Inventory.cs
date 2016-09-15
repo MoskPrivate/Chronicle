@@ -250,7 +250,8 @@ public class Inventory : MonoBehaviour
                 {
                     amountToAdd -= inventoryList[i].amount;
                     inventoryList[i].amount = 0;
-                    if(amount > 0)
+                    inventoryList[i].itemId = -1;
+                    if (amount > 0)
                     {
                         continue;
                     }
@@ -258,6 +259,10 @@ public class Inventory : MonoBehaviour
                 else
                 {
                     inventoryList[i].amount -= amount;
+                    if(inventoryList[i].amount >= 0)
+                    {
+                        inventoryList[i].itemId = -1;
+                    }
                     return;
                 }
             }
