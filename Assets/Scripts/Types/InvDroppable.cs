@@ -31,7 +31,7 @@ public class InvDroppable : MonoBehaviour ,IDropHandler, IPointerEnterHandler, I
             if (transform.childCount > 1)
             {
                 
-                my = this.transform.FindChild("ItemImager").GetComponent<InvMoveable>();
+                my = this.transform.FindChild("ItemImage").GetComponent<InvMoveable>();
 
                 if (InvMoveable.isBeingSplitted == false)
                 {
