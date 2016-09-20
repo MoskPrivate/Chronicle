@@ -24,6 +24,7 @@ public class Inventory : MonoBehaviour
     public GameObject sideBarPanel;
     public GameObject player;
     public GameObject playerCameraObject;
+    public GameObject invItemPrefab;
 
     int splitAmount = 0;
 
