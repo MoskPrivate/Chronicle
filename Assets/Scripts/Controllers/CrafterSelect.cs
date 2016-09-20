@@ -8,6 +8,7 @@ public class CrafterSelect : MonoBehaviour {
     [Header("Crafter List")]
     public List<Crafter> crafterList;
     public Crafter selectedCrafter;
+    Crafter previouslySelectedCrafter;
 
 
     [Header("Other Items")]
@@ -21,6 +22,8 @@ public class CrafterSelect : MonoBehaviour {
     public GameObject craftButton;
     public Color craftButtonColorGreen;
     public Color craftButtonColorRed;
+    public Color originalCrafterColor;
+
 
     int crafterResultId;
 
@@ -33,6 +36,23 @@ public class CrafterSelect : MonoBehaviour {
             Crafter.isPressed = true;
         }
         UpdateGraphicsSideBar(_crafter);
+        UpdateCrafterGraphics();
+    }
+    void UpdateCrafterGraphics()
+    {
+        if(selectedCrafter != null)
+        {
+            Image crafterImage = selectedCrafter.GetComponent<Image>();
+            if(crafterImage != null)
+            {
+                crafterImage.color = craftButtonColorRed;
+            }
+            if(previouslySelectedCrafter != null && selectedCrafter != previouslySelectedCrafter)
+            {
+                previouslySelectedCrafter.GetComponent<Image>().color = originalCrafterColor;
+            }
+        }
+        previouslySelectedCrafter = selectedCrafter;
     }
     public void UpdateGraphicsSideBar(Crafter _crafter)
     {
