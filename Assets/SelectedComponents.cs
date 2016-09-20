@@ -23,7 +23,7 @@ public class SelectedComponents : MonoBehaviour {
     {
         selectedSlot = slot;
         selectedSlot.GetComponent<Image>().color = selectedSlotColor;
-        if(lastSelectedSlot != null)
+        if(lastSelectedSlot != null && lastSelectedSlot != selectedSlot)
         {
             lastSelectedSlot.GetComponent<Image>().color = defaultSlotColor;
         }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.UI;
 
 public class InvMoveable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
@@ -14,19 +15,26 @@ public class InvMoveable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public int splittedAmount;
     public int splittedAmountLeft;
 	Inventory inventory;
+    GameObject tempInvItem;
+    ItemManager itemManager;
 
     void Start()
     {
         selectedComp = FindObjectOfType<SelectedComponents>();
 		inventory = FindObjectOfType<Inventory>();
+        itemManager = FindObjectOfType<ItemManager>();
     }
-
+    
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         
         if (interactable)
         {
+            returnParent = this.transform.parent;
+            originalParent = this.transform.parent;
+
+            this.transform.SetParent(returnParent.parent.parent);
             if (Input.GetMouseButton(1))
             {
                 isBeingSplitted = true;
@@ -34,15 +42,24 @@ public class InvMoveable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 splittedAmountLeft = inventory.GetAmount(slot) - splittedAmount;
                 inventory.SetAmount(slot, splittedAmountLeft);
                 inventory.Split(splittedAmount);
+                if(splittedAmount > 0)
+                {
+                    tempInvItem = (GameObject)Instantiate(inventory.invItemPrefab, originalParent.transform, false);
+                    tempInvItem.transform.FindChild("Image").GetComponent<Image>().sprite = itemManager.itemList[inventory.InventoryList[slot].itemId].itemSprite;
+                    tempInvItem.transform.FindChild("Image").GetComponent<Image>().color = new Color(255, 255, 255, 255);
+                    tempInvItem.transform.FindChild("Text").gameObject.GetComponent<Text>().text = splittedAmount.ToString();
+                    if (splittedAmount == 1)
+                    {
+                        tempInvItem.transform.FindChild("Text").gameObject.GetComponent<Text>().text = "";
+                    }
+                }
+                
             }
             else
             {
                 inventory.Split(0);
             }
-            returnParent = this.transform.parent;
-			originalParent = this.transform.parent;
             
-            this.transform.SetParent(returnParent.parent.parent);
 
             GetComponent<CanvasGroup>().blocksRaycasts = false;
         }
@@ -74,6 +91,10 @@ public class InvMoveable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         else
         {
 
+        }
+        if(isBeingSplitted && tempInvItem != null)
+        {
+            Destroy(tempInvItem);
         }
         isBeingSplitted = false;
         
