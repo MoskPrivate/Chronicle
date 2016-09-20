@@ -30,23 +30,48 @@ public class InvDroppable : MonoBehaviour ,IDropHandler, IPointerEnterHandler, I
         {
             if (transform.childCount > 1)
             {
-				my = this.transform.FindChild("ItemImage").GetComponent<InvMoveable>();
-                //Debug.Log("Swap : " + my.slot + " with " + d.slot);
-                //this.transform.GetChild(0).SetParent(d.returnParent,false);
+                
+                my = this.transform.FindChild("ItemImage").GetComponent<InvMoveable>();
 
-                my.transform.SetParent(d.originalParent.transform,false);
-				d.returnParent = this.transform;
-				d.transform.SetParent(d.returnParent,false);
+                if (InvMoveable.isBeingSplitted == false)
+                {
+                    if(inventory.InventoryList[my.slot].itemId == inventory.InventoryList[d.slot].itemId)
+                    {
+                        inventory.Stack(my.slot, d.slot);
+                    }
+                    my.transform.SetParent(d.originalParent.transform, false);
+                    d.returnParent = this.transform;
+                    d.transform.SetParent(d.returnParent, false);
 
+                    inventory.SwapSlots(my.slot, d.slot);
 
-				/*d.transform.SetParent(d.returnParent);
-				d.transform.position = d.returnParent.transform.position;
-				d.GetComponent<CanvasGroup>().blocksRaycasts = true;*/
-				inventory.SwapSlots(my.slot,d.slot);
-				temp = my.slot;
-				my.slot = d.slot;
+                    temp = my.slot;
+                    my.slot = d.slot;
 
-				d.slot = temp;
+                    d.slot = temp;
+                }
+                else
+                {
+                    if(inventory.InventoryList[my.slot].itemId == -1 || inventory.InventoryList[d.slot].itemId == -1)
+                    {
+                        my.transform.SetParent(d.originalParent.transform, false);
+                        d.returnParent = this.transform;
+                        d.transform.SetParent(d.returnParent, false);
+
+                        inventory.SwapSlots(my.slot, d.slot);
+
+                        temp = my.slot;
+                        my.slot = d.slot;
+
+                        d.slot = temp;
+                    }
+                    else
+                    {
+                        inventory.InventoryList[d.slot].amount = d.splittedAmount + d.splittedAmountLeft;
+                    }
+                    
+                }
+                
 
             }
             

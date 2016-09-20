@@ -25,6 +25,7 @@ public class Inventory : MonoBehaviour
     public GameObject player;
     public GameObject playerCameraObject;
 
+    int splitAmount = 0;
 
     public int hotBarSlotAmount;
 	//public int inventorySlotAmount;
@@ -97,7 +98,44 @@ public class Inventory : MonoBehaviour
             sideBarPanel.SetActive(false);
         }
     }
-
+    public int GetAmount(int slotId)
+    {
+        return inventoryList[slotId].amount;
+    }
+    public void SetAmount(int slotId, int amount)
+    {
+        inventoryList[slotId].amount = amount;
+        UpdateGraphics();
+    }
+    public void Stack(int slot1, int slot2)
+    {
+        invItem item1 = inventoryList[slot1];
+        invItem item2 = inventoryList[slot2];
+        int maxStackSize = itemManager.itemList[item2.itemId].stackSize;
+        if(item1.amount >= maxStackSize || item2.amount >= maxStackSize)
+        {
+            return;
+        }
+        if(item1.amount + item2.amount > maxStackSize)
+        {
+            int amountToAdd = maxStackSize - item2.amount;
+            item1.amount -= amountToAdd;
+            item2.amount += amountToAdd;
+        }
+        else if(item1.amount + item2.amount <= maxStackSize)
+        {
+            item2.amount += item1.amount;
+            item1.amount = 0;
+            item1.itemId = -1;
+        }
+        else if(item1.amount + item2.amount <= maxStackSize)
+        {
+            //int amountToAdd 
+        }
+        UpdateGraphics();
+        
+        
+    }
     public void PanelActivate()
     {
         
@@ -227,9 +265,29 @@ public class Inventory : MonoBehaviour
 		item2.itemId = inventoryList[slot1].itemId;*/
 
 		inventoryList[slot1] = item2;
-		inventoryList[slot2] = item1;
+        inventoryList[slot2] = item1;
+        if(splitAmount != 0)
+        {
+            if(inventoryList[slot2].itemId == -1)
+            {
+                inventoryList[slot2].itemId = inventoryList[slot1].itemId;
+                inventoryList[slot2].amount = splitAmount;
+            }
+            else
+            {
+
+            }
+            
+            splitAmount = 0;
+        }
+        
         UpdateGraphics();
 
+    }
+
+    public void Split(int amount)
+    {
+        splitAmount = amount;
     }
 
     //Checking if sufficent resources are available(Crafting)
@@ -248,7 +306,6 @@ public class Inventory : MonoBehaviour
             {
                 if(amountToRemove >= inventoryList[i].amount)
                 {
-                    Debug.Log(inventoryList[i].slotId + " remove " + inventoryList[i].amount + " " + itemId);
                     int amountLeft = amountToRemove - inventoryList[i].amount;
                     inventoryList[i].amount -= inventoryList[i].amount;
                     inventoryList[i].itemId = -1;
@@ -265,7 +322,6 @@ public class Inventory : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(inventoryList[i].slotId + " remove " + amountToRemove + " " + itemId);
                     inventoryList[i].amount -= amountToRemove;
                     if (inventoryList[i].amount <= 0)
                     {
