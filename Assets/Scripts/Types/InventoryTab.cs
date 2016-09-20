@@ -35,7 +35,10 @@ public class InventoryTab : MonoBehaviour , IPointerClickHandler {
         craftingManager.UpdateCraftingAvailability(0);
         if(crafterSelect.selectedCrafter != null)
         {
+            
+            
             crafterSelect.UpdateGraphicsSideBar(crafterSelect.selectedCrafter);
+            
         }
     }
 
@@ -57,7 +60,7 @@ public class InventoryTab : MonoBehaviour , IPointerClickHandler {
 
     public void OnPointerClick(PointerEventData eventData)
     {
-
+        crafterSelect.ResetCrafterGraphics();
         craftingManager.UpdateCraftingAvailability(pageNumber);
         tabsManager.SelectTab(pageNumber, this.gameObject);
         Crafter.isPressed = false;

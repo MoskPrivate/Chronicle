@@ -8,7 +8,7 @@ public class CrafterSelect : MonoBehaviour {
     [Header("Crafter List")]
     public List<Crafter> crafterList;
     public Crafter selectedCrafter;
-    Crafter previouslySelectedCrafter;
+    public Crafter previouslySelectedCrafter;
 
 
     [Header("Other Items")]
@@ -23,6 +23,7 @@ public class CrafterSelect : MonoBehaviour {
     public Color craftButtonColorGreen;
     public Color craftButtonColorRed;
     public Color originalCrafterColor;
+    
 
 
     int crafterResultId;
@@ -38,21 +39,34 @@ public class CrafterSelect : MonoBehaviour {
         UpdateGraphicsSideBar(_crafter);
         UpdateCrafterGraphics();
     }
-    void UpdateCrafterGraphics()
+    public void UpdateCrafterGraphics()
     {
-        if(selectedCrafter != null)
+        
+        if (selectedCrafter != null)
         {
             Image crafterImage = selectedCrafter.GetComponent<Image>();
             if(crafterImage != null)
             {
                 crafterImage.color = craftButtonColorRed;
+                //crafterImage.GetComponent<Button>().transition = Selectable.Transition.None;
             }
-            if(previouslySelectedCrafter != null && selectedCrafter != previouslySelectedCrafter)
+            if (previouslySelectedCrafter != null && selectedCrafter != previouslySelectedCrafter)
             {
                 previouslySelectedCrafter.GetComponent<Image>().color = originalCrafterColor;
+                //previouslySelectedCrafter.GetComponent<Button>().transition = Selectable.Transition.ColorTint;
             }
         }
+
         previouslySelectedCrafter = selectedCrafter;
+    }
+    public void ResetCrafterGraphics()
+    {
+        if (previouslySelectedCrafter != null)
+        {
+            previouslySelectedCrafter.GetComponent<Image>().color = originalCrafterColor;
+            //previouslySelectedCrafter.GetComponent<Button>().transition = Selectable.Transition.ColorTint;
+
+        }
     }
     public void UpdateGraphicsSideBar(Crafter _crafter)
     {

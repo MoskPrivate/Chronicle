@@ -248,7 +248,6 @@ public class Inventory : MonoBehaviour
             {
                 if(amountToRemove >= inventoryList[i].amount)
                 {
-                    Debug.Log(inventoryList[i].slotId + " remove " + inventoryList[i].amount + " " + itemId);
                     int amountLeft = amountToRemove - inventoryList[i].amount;
                     inventoryList[i].amount -= inventoryList[i].amount;
                     inventoryList[i].itemId = -1;
@@ -265,7 +264,6 @@ public class Inventory : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(inventoryList[i].slotId + " remove " + amountToRemove + " " + itemId);
                     inventoryList[i].amount -= amountToRemove;
                     if (inventoryList[i].amount <= 0)
                     {

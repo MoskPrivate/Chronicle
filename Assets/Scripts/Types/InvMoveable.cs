@@ -1,20 +1,20 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using System;
 
-public class InvMoveable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class InvMoveable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
 
     public Transform returnParent = null;
     public Transform originalParent = null;
     public int slot;
     public bool interactable = true;
+    SelectedComponents selectedComp;
 	//Inventory inventory;
 
     void Start()
     {
-        
+        selectedComp = FindObjectOfType<SelectedComponents>();
 		//inventory = FindObjectOfType<Inventory>();
     }
 
@@ -41,7 +41,6 @@ public class InvMoveable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
         
     }
-
     public void OnEndDrag(PointerEventData eventData)
     {
         if (interactable)
@@ -53,6 +52,15 @@ public class InvMoveable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             GetComponent<CanvasGroup>().blocksRaycasts = true;
         }
         
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(gameObject.transform.parent.gameObject.GetComponent<InvDroppable>() != null)
+        {
+            InvDroppable slot = gameObject.transform.parent.gameObject.GetComponent<InvDroppable>();
+            selectedComp.SelectSlot(slot);
+        }
     }
 }
 
