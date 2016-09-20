@@ -10,19 +10,35 @@ public class InvMoveable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public int slot;
     public bool interactable = true;
     SelectedComponents selectedComp;
-	//Inventory inventory;
+    public static bool isBeingSplitted;
+    public int splittedAmount;
+    public int splittedAmountLeft;
+	Inventory inventory;
 
     void Start()
     {
         selectedComp = FindObjectOfType<SelectedComponents>();
-		//inventory = FindObjectOfType<Inventory>();
+		inventory = FindObjectOfType<Inventory>();
     }
 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        
         if (interactable)
         {
+            if (Input.GetMouseButton(1))
+            {
+                isBeingSplitted = true;
+                splittedAmount = inventory.GetAmount(slot)/2;
+                splittedAmountLeft = inventory.GetAmount(slot) - splittedAmount;
+                inventory.SetAmount(slot, splittedAmountLeft);
+                inventory.Split(splittedAmount);
+            }
+            else
+            {
+                inventory.Split(0);
+            }
             returnParent = this.transform.parent;
 			originalParent = this.transform.parent;
             
@@ -51,6 +67,15 @@ public class InvMoveable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
             GetComponent<CanvasGroup>().blocksRaycasts = true;
         }
+        if(returnParent == originalParent && isBeingSplitted)
+        {
+            inventory.SetAmount(slot, splittedAmount + splittedAmountLeft);
+        }
+        else
+        {
+
+        }
+        isBeingSplitted = false;
         
     }
 
