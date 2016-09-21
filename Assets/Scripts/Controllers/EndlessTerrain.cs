@@ -111,6 +111,7 @@ public class EndlessTerrain : MonoBehaviour {
             meshObject.name = "Chunk";
             MeshGenerator meshGen = meshObject.AddComponent<MeshGenerator>();
             Chunk createdChunk = meshObject.AddComponent<Chunk>();
+            meshObject.gameObject.layer = 10;
 
             wallObject.name = "Extrusion";
             wallObject.AddComponent<MeshRenderer>();
